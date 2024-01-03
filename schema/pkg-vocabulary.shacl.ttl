@@ -15,6 +15,7 @@
 @prefix wo:    <http://purl.org/ontology/wo/core#> .
 
 @prefix pkg:   <http://example.com/pkg> .
+@base <https://iai-group.github.io/pkg-vocabulary/0.1.0-SNAPSHOT/> .
 
 pkg:PKGVocabulary a owl:Ontology ;
     dc:title "Personal Knowledge Graph (PKG) Vocabulary" ;
@@ -27,9 +28,9 @@ pkg:PKGVocabulary a owl:Ontology ;
 
     owl:versionInfo "0.1.0-SNAPSHOT" ;
   
-    #dcat:distribution 
-    #   [ dc:format <https://www.iana.org/assignments/media-types/text/turtle> ;
-    #     dcat:downloadURL <...ttl> ] ,
+    dcat:distribution 
+       [ dc:format <https://www.iana.org/assignments/media-types/text/turtle> ;
+         dcat:downloadURL <./pkg-vocabulary.shacl.ttl> ] ;
     #   [ dc:format <https://www.iana.org/assignments/media-types/application/ld+json> ;
     #     dcat:downloadURL <....json> ] 
 
@@ -63,12 +64,12 @@ expressed using SKOS.
 
 
 pkg:StatementShape a sh:NodeShape ;
+
   sh:targetClass rdf:Statement ;
 
-  skos:prefLabel "Statement" ;
-  skos:definition """""" ;
+  # skos:definition """ """ ;
   # skos:changeNote
-  #  skos:example """ """ ;
+  skos:example <./example/ex1.ttl> ;
   sh:order 1;
   sh:property
 
