@@ -45,7 +45,7 @@
   rdf:subject
     my:I ;
   rdf:predicate
-    [ a skos:Concept ; dc:description "dislikes" ] ;
+    [ a skos:Concept ; dc:description "dislike" ] ;
   rdf:object
     [ a skos:Concept ; dc:description "All movies with the actor Tom Cruise" ;
         skos:related ex:Movie, ex:actor, ex:TomCruise ;
