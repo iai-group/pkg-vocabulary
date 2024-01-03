@@ -1,0 +1,645 @@
+<!DOCTYPE HTML><html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <style>
+					body {
+						margin: 0;
+						font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+							"Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+							"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+							"Noto Color Emoji";
+						background-color: #fff;
+					}
+					
+					.anchor {
+						float: left;
+						padding-right: 4px;
+						margin-left: -20px;
+						line-height: 1;
+						padding-top: 12px;
+					}
+							
+					a {
+						color: #007bff;
+						text-decoration: none;
+						background-color: transparent;
+					}
+					
+					a:-webkit-any-link {
+						cursor: pointer;
+					}
+					
+					.p {
+						font-size: 0.875em;
+					}
+					
+					h2 {
+						margin: 25px 0px 10px 0px;
+					}
+					
+					h3 {
+						font-size: 1.4em;
+					}
+					
+					@media only print {
+					}
+					
+					@page {
+						size: A4 portrait;
+						margin-top: 1.2cm;
+						margin-bottom: 1.2cm;
+						margin-left: 1.2cm;
+						margin-right: 1.2cm;
+						background-repeat: no-repeat;
+						background-position: 40px 10px;
+						
+						@bottom-center
+						{
+						content
+						:
+						counter(
+						page
+						);
+					}
+					
+					}
+							
+					/* This section draw the format web */
+					.ul_type_none {
+						list-style-type: none;
+					}
+					
+					.sp_list_description_properties {
+						/* don't set it lower otherwise it gets hidden in PDF */
+						padding-left: 20px;
+					}
+					
+					dl, ol, ul {
+						margin-top: 0;
+						margin-bottom: 1rem;
+					}
+					
+					li {
+						display: list-item;
+						text-align: -webkit-match-parent;
+					}
+					
+					.sp_section_title_header {
+						font-family: Georgia, Garamond, serif;	
+						margin-top: 25px;
+						margin-bottom: 2.5rem;
+					    font-size: 1.5625rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em;   
+					}
+					
+					.sp_section_subtitle {
+						font-family: Georgia, Garamond, serif;	
+						margin-top: 0;
+						margin-bottom: 0.5rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em;  
+					}
+					
+					.sp_section_title_table {
+						font-family: Georgia, Garamond, serif;	
+						/* 0 because URI is right under */
+						margin-bottom: 0rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em; 
+					}
+							
+
+					.sp_section_title_toc {
+						font-family: Georgia, Garamond, serif;	
+					}
+
+					/* URI below the title of the section */
+					.sp_section_uri	 {
+						margin-top: 0px;
+					}
+
+					/* div wrapping section title and URI below - same as a paragraph margin */
+					.sp_section_title_table_wrapper {
+						margin-bottom: 16px;
+						border-bottom: 1px solid;	
+					}
+					
+					 
+					table {
+						display: table;
+						border-spacing: 0px;
+						margin-bottom: 1rem;
+					}
+					
+					tr:nth-child(even) {
+						background-color: #eee;
+					}
+							
+					.sp_table_prefixes table {
+						border-collapse: collapse;
+						margin-bottom: 1rem;
+						color: #212529;
+					}
+											
+					.sp_table_prefixes td {
+						padding: 0.25rem;
+						vertical-align: top;
+						border-top: 1px solid #dee2e6;
+					}
+					
+					.sp_table_propertyshapes {
+						border-collapse: collapse;
+						width: 100%;
+					}
+										
+					.sp_table_propertyshapes thead {
+						display: table-header-group;
+						vertical-align: middle;
+						border-color: inherit;
+					}
+													
+					.sp_table_propertyshapes tr {
+					    display: table-row;
+					    vertical-align: inherit;
+					    border-color: inherit;
+					}
+													
+					.sp_table_propertyshapes th:nth-child(4) {
+						width: 6%;
+					}
+													
+					.sp_table_propertyshapes td {
+						padding: 0.75rem;
+						border-top: 1px solid #dee2e6;
+					}
+													
+					.sp_table_propertyshapes tbody {
+						display: table-row-group;
+						vertical-align: middle;
+						border-color: inherit;
+					}
+										
+					.sp_table_propertyshapes_col_description {
+						word-break: break-word;
+					}
+					
+					.sp_serialization_badge {
+						margin-right: 0.5em;
+					}
+							
+					
+							.container {
+							    width: calc(100% - 40px);
+							    max-width: 1000px;
+							    margin-left: 300px;
+							    margin-right: auto;
+							}
+							.container {width: calc(100% - 500px);}
+							.toc {
+								position: fixed;
+								top: 0;
+								left: 0;
+								font-size: small;
+								padding: 10px 10px;
+								width: auto;
+								border-right: solid 2px #eeeeee;
+								bottom: 0;
+								overflow-y: scroll;
+								background-color:white;
+								max-width:255px;
+							}
+							.sp_list_toc {padding-left: 0px;}
+							.sp_list_toc_l2 {padding-left: 10px;}					
+						</style>
+      <meta charset="UTF-8">
+      <meta name="lang" content="en">
+      <meta property="og:locale" content="en">
+      <title>Personal Knowledge Graph (PKG) Vocabulary</title>
+      <meta name="apple-mobile-web-app-title" content="Personal Knowledge Graph (PKG) Vocabulary">
+      <meta name="twitter:title" content="Personal Knowledge Graph (PKG) Vocabulary">
+      <meta property="og:title" content="Personal Knowledge Graph (PKG) Vocabulary">
+   </head>
+   <body>
+      <div class="sp_container_principal container pt-4">
+         <h1 class="mb-4 sp_section_title_header">Personal Knowledge Graph (PKG) Vocabulary</h1>
+         <div><b>Version: </b>0.1.0-SNAPSHOT<br><b>Creator: </b>Martin G. Skjæveland<br><br></div>
+         <div class="row mt-3">
+            <div class="col">
+               <h2 id="abstract" class="sp_section_subtitle">Abstract</h2><p>The PKG Vocabulary defines a pattern for expressing reified statements
+that may be annotated with provenance data. The vocabulary is intended
+used for expressing facts and statements for personal knowledge graphs
+(PKG), that is, facts and statements where personalisation data, e.g.,
+who made the statement, who the statement is about, is at the core.</p>
+<p>Statements are represented by RDF's reification vocabulary
+(https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab) with
+additional provenance, authoring and versioning data (using the PAV
+ontology), and the possibility of assigning preferences to statements
+(using the Weighting Ontology). Complex values are recommended
+expressed using SKOS.</p>
+</div>
+         </div>
+         <div class="sp_section_title_toc toc">
+            <h2 id="Index">Table of Contents</h2>
+            <ul role="list" class="sp_list_toc ul_type_none t-x-mode">
+               <li><a href="#prefixes">Namespaces</a></li>
+               <li><a href="#diagrams">Diagrams</a></li>
+               <li><a href="#documentation">Model documentation</a><ul role="list" class="ul_type_none sp_list_toc_l2">
+                     <li><a href="#pkg:StatementShape">Statement</a></li>
+                     <li><a href="#pkg:StatementValueShape">pkg:StatementValueShape</a></li>
+                     <li><a href="#pkg:ConceptShape">pkg:ConceptShape</a></li>
+                     <li><a href="#pkg:WeightShape">pkg:WeightShape</a></li>
+                     <li><a href="#pkg:WeightScaleShape">pkg:WeightScaleShape</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+         <div class="row mt-3">
+            <div class="col">
+               <section id="prefixes">
+                  <h2 class="sp_section_subtitle">Namespaces</h2>
+                  <table class="sp_table_prefixes table table-striped table-responsive">
+                     <thead>
+                        <tr>
+                           <th>Prefix</th>
+                           <th>Namespace</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>dc</td>
+                           <td><a href="http://purl.org/dc/terms/" target="_blank">http://purl.org/dc/terms/</a></td>
+                        </tr>
+                        <tr>
+                           <td>event</td>
+                           <td><a href="http://purl.org/NET/c4dm/event.owl#" target="_blank">http://purl.org/NET/c4dm/event.owl#</a></td>
+                        </tr>
+                        <tr>
+                           <td>foaf</td>
+                           <td><a href="http://xmlns.com/foaf/0.1/" target="_blank">http://xmlns.com/foaf/0.1/</a></td>
+                        </tr>
+                        <tr>
+                           <td>pav</td>
+                           <td><a href="http://purl.org/pav/" target="_blank">http://purl.org/pav/</a></td>
+                        </tr>
+                        <tr>
+                           <td>rdf</td>
+                           <td><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#" target="_blank">http://www.w3.org/1999/02/22-rdf-syntax-ns#</a></td>
+                        </tr>
+                        <tr>
+                           <td>skos</td>
+                           <td><a href="http://www.w3.org/2004/02/skos/core#" target="_blank">http://www.w3.org/2004/02/skos/core#</a></td>
+                        </tr>
+                        <tr>
+                           <td>wo</td>
+                           <td><a href="http://purl.org/ontology/wo/core#" target="_blank">http://purl.org/ontology/wo/core#</a></td>
+                        </tr>
+                        <tr>
+                           <td>xsd</td>
+                           <td><a href="http://www.w3.org/2001/XMLSchema#" target="_blank">http://www.w3.org/2001/XMLSchema#</a></td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </section>
+            </div>
+         </div><br><div class="sp_section_row mt-3">
+            <div class="sp_section_col">
+               <section>
+                  <h2 id="diagrams" class="sp_section_subtitle">Diagrams</h2>
+                  <div><?xml version="1.0" encoding="us-ascii" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="480px" preserveAspectRatio="none" style="width:594px;height:480px;background:#FFFFFF;" version="1.1" viewBox="0 0 594 480" width="594px" zoomAndPan="magnify"><defs xmlns=""/><g xmlns=""><!--class pkg:WeightScaleShape--><a href="#pkg:WeightScaleShape" target="_top" title="#pkg:WeightScaleShape" xlink:actuate="onRequest" xlink:href="#pkg:WeightScaleShape" xlink:show="new" xlink:title="#pkg:WeightScaleShape" xlink:type="simple"><g id="elem_pkg:WeightScaleShape"><rect codeLine="6" fill="#F1F1F1" height="83.1875" id="pkg:WeightScaleShape" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="261" x="156.977" y="390"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="160" x="207.477" y="407.9951">pkg:WeightScaleShape</text><line style="stroke:#181818;stroke-width:0.5;" x1="157.977" x2="416.977" y1="416.2969" y2="416.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="246" x="162.977" y="433.292">wo:min_weigth  : xsd:decimal  [1..1]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="249" x="162.977" y="449.5889">wo:max_weigth  : xsd:decimal  [1..1]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="234" x="162.977" y="465.8857">wo:step_size  : xsd:decimal  [0..1]</text></g></a><!--class pkg:ConceptShape--><a href="#pkg:ConceptShape" target="_top" title="#pkg:ConceptShape" xlink:actuate="onRequest" xlink:href="#pkg:ConceptShape" xlink:show="new" xlink:title="#pkg:ConceptShape" xlink:type="simple"><g id="elem_pkg:ConceptShape"><rect codeLine="10" fill="#F1F1F1" height="66.8906" id="pkg:ConceptShape" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="227" x="360.977" y="47.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="407.477" y="65.4951">pkg:ConceptShape</text><line style="stroke:#181818;stroke-width:0.5;" x1="361.977" x2="586.977" y1="73.7969" y2="73.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="143" x="366.977" y="90.792">dc:description  [1..1]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="215" x="366.977" y="107.0889">related|narrower|broader  [0..*]</text></g></a><!--class pkg:StatementShape--><a href="#pkg:StatementShape" target="_top" title="#pkg:StatementShape" xlink:actuate="onRequest" xlink:href="#pkg:StatementShape" xlink:show="new" xlink:title="#pkg:StatementShape" xlink:type="simple"><g id="elem_pkg:StatementShape"><rect codeLine="13" fill="#F1F1F1" height="148.375" id="pkg:StatementShape" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="279" x="46.977" y="7"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="147" x="112.977" y="24.9951">pkg:StatementShape</text><line style="stroke:#181818;stroke-width:0.5;" x1="47.977" x2="324.977" y1="33.2969" y2="33.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="143" x="52.977" y="50.292">dc:description  [1..1]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="151" x="52.977" y="66.5889">pav:authoredBy  [0..*]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="141" x="52.977" y="82.8857">pav:createdBy  [0..*]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="141" x="52.977" y="99.1826">pav:curatedBy  [0..*]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="267" x="52.977" y="115.4795">pav:authoredOn  : xsd:dateTime  [0..1]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="257" x="52.977" y="131.7764">pav:createdOn  : xsd:dateTime  [0..1]</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="138" x="52.977" y="148.0732">pav:createdAt  [0..*]</text></g></a><!--class pkg:StatementValueShape--><g id="elem_pkg:StatementValueShape"><rect fill="#F1F1F1" height="26.2969" id="pkg:StatementValueShape" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="191" x="28.977" y="259.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="185" x="31.977" y="277.4951">pkg:StatementValueShape</text></g><!--class pkg:WeightShape--><a href="#pkg:WeightShape" target="_top" title="#pkg:WeightShape" xlink:actuate="onRequest" xlink:href="#pkg:WeightShape" xlink:show="new" xlink:title="#pkg:WeightShape" xlink:type="simple"><g id="elem_pkg:WeightShape"><rect codeLine="25" fill="#F1F1F1" height="50.5938" id="pkg:WeightShape" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="269" x="254.977" y="247"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123" x="327.977" y="264.9951">pkg:WeightShape</text><line style="stroke:#181818;stroke-width:0.5;" x1="255.977" x2="522.977" y1="273.2969" y2="273.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="257" x="260.977" y="290.292">wo:weigth_value  : xsd:decimal  [1..1]</text></g></a><!--class foaf:Agent--><g id="elem_foaf:Agent"><rect fill="#F1F1F1" height="26.2969" id="uml_foaf:Agent" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="77" x="452.977" y="418.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="455.977" y="436.4951">foaf:Agent</text></g><!--link pkg:StatementShape to pkg:StatementValueShape--><g id="link_pkg:StatementShape_pkg:StatementValueShape"><path codeLine="15" d="M46.6474,145.7113 C33.487,157.0188 21.9311,170.0537 13.477,185 C6.475,197.3792 6,204.9019 13.477,217 C26.3333,237.8019 43.9992,248.9386 65.9277,257.262 " fill="none" id="pkg:StatementShape-to-pkg:StatementValueShape" style="stroke:#800000;stroke-width:1.0;"/><polygon fill="#800000" points="71.5372,259.3912,64.5424,252.4577,66.8626,257.6169,61.7035,259.9371,71.5372,259.3912" style="stroke:#800000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="67" x="14.477" y="198.0669">rdf:subject</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="34" x="30.977" y="213.1997">[1..1]</text></g><!--link pkg:StatementShape to pkg:StatementValueShape--><g id="link_pkg:StatementShape_pkg:StatementValueShape"><path codeLine="16" d="M134.3091,155.1282 C129.4807,164.8215 125.3351,174.9024 122.477,185 C115.2351,210.586 117.8079,236.1674 120.807,253.5357 " fill="none" id="pkg:StatementShape-to-pkg:StatementValueShape-1" style="stroke:#800000;stroke-width:1.0;"/><polygon fill="#800000" points="121.828,259.4482,124.2382,249.8988,120.9772,254.5211,116.3549,251.2601,121.828,259.4482" style="stroke:#800000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="81" x="123.477" y="198.0669">rdf:predicate</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="34" x="146.977" y="213.1997">[1..1]</text></g><!--link pkg:StatementShape to pkg:StatementValueShape--><g id="link_pkg:StatementShape_pkg:StatementValueShape"><path codeLine="17" d="M216.0233,155.1891 C219.9346,176.1097 219.6231,198.2578 209.477,217 C198.8214,236.6834 183.221,247.8853 164.7601,256.808 " fill="none" id="pkg:StatementShape-to-pkg:StatementValueShape-2" style="stroke:#800000;stroke-width:1.0;"/><polygon fill="#800000" points="159.358,259.419,169.2018,259.1039,163.8598,257.2432,165.7205,251.9011,159.358,259.419" style="stroke:#800000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="60" x="219.477" y="205.5669">rdf:object</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="4" x="279.477" y="205.5669">&#xa0;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="34" x="283.477" y="205.5669">[1..1]</text></g><!--link pkg:StatementShape to pkg:WeightShape--><g id="link_pkg:StatementShape_pkg:WeightShape"><path codeLine="18" d="M293.7196,155.1995 C305.2155,164.7312 316.3834,174.7549 326.477,185 C345.0006,203.8015 358.9955,223.3831 370.7379,241.7215 " fill="none" id="pkg:StatementShape-to-pkg:WeightShape" style="stroke:#800000;stroke-width:1.0;"/><polygon fill="#800000" points="373.9734,246.7744,372.4888,237.0381,371.2772,242.5637,365.7516,241.352,373.9734,246.7744" style="stroke:#800000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="62" x="353.477" y="205.5669">wo:weigth</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="4" x="415.477" y="205.5669">&#xa0;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="34" x="419.477" y="205.5669">[0..1]</text></g><!--link pkg:WeightShape to pkg:WeightScaleShape--><g id="link_pkg:WeightShape_pkg:WeightScaleShape"><path codeLine="27" d="M370.8666,298.2341 C364.2895,307.5233 356.9275,318.1472 350.477,328 C337.3417,348.0635 326.4977,365.6366 315.0858,384.6672 " fill="none" id="pkg:WeightShape-to-pkg:WeightScaleShape" style="stroke:#800000;stroke-width:1.0;"/><polygon fill="#800000" points="312.0001,389.8129,320.0591,384.1514,314.5715,385.5248,313.1981,380.0372,312.0001,389.8129" style="stroke:#800000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="54" x="351.477" y="348.5669">wo:scale</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="8" x="405.477" y="348.5669">&#xa0;&#xa0;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="34" x="413.477" y="348.5669">[1..1]</text></g><!--link pkg:WeightShape to foaf:Agent--><g id="link_pkg:WeightShape_foaf:Agent"><path codeLine="28" d="M424.5321,298.0634 C434.5755,306.695 444.8555,316.9661 452.477,328 C472.5574,357.0709 482.5587,391.9771 487.3616,412.5992 " fill="none" id="pkg:WeightShape-to-foaf:Agent" style="stroke:#800000;stroke-width:1.0;"/><polygon fill="#800000" points="488.7226,418.4428,490.5769,408.7701,487.5885,413.5731,482.7854,410.5847,488.7226,418.4428" style="stroke:#800000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="77" x="470.477" y="341.0669">event:agent</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="34" x="491.977" y="356.1997">[1..1]</text></g><!--SRC=[fLHDJoCn3BttLmIu8O7Q5QSSa4gri2ijYqGH7AggSXEtaoLVSZ8jHVnu4hMKcMdP0hrDxFUSPpzFmgEo7WWC4nf2k7GszjKpiivPwq3YH5baVtvV_RgxkUt-lVhP2kzmPxopcE1neP6LHl-ePES4_Xf3W2a-A1aBrcctA-akaPltd7R4Zgw1dBEjNhwU7Vh7ANz0DIrYNu36VW4U3zbWSBGjCHoorWSCpkQE6sL7yvHAzwV0Kv1Seb06D6E3pkbfPyXsyE5fBtw8w4SXZtE3tbxHAsttd1NeOxtbQd3TRXt9cHIfSX2aV5JEDiKrqOGQ8ieN2za5f9SnEP18IrN73LNzcC0c-rpJLG-lbJNHkxGryISdvurhxq6NxqCbEU6X7Fz34TygVR-G9vHAfFJ-fTnN9AssfR8egoLRRSL7e_Gmur36mYNT5ukANV_12y9izgVX9Nq5_gRcngutFC7kbC7AYkzMjoUz6xUlRctEzITas-knuSTebdt-tA-_tUAD1o47TbUOE9ZmxZIrctauInySyh52BPH49XG9ZSjlWyaB6PO7D3ukKiYCaS8h]--></g></svg></div><small class="form-text text-muted">Click diagram to navigate to corresponding section | <a href="http://www.plantuml.com/plantuml/png/fLHDJoCn3BttLmIu8O7Q5QSSa4gri2ijYqGH7AggSXEtaoLVSZ8jHVnu4hMKcMdP0hrDxFUSPpzFmgEo7WWC4nf2k7GszjKpiivPwq3YH5baVtvV_RgxkUt-lVhP2kzmPxopcE1neP6LHl-ePES4_Xf3W2a-A1aBrcctA-akaPltd7R4Zgw1dBEjNhwU7Vh7ANz0DIrYNu36VW4U3zbWSBGjCHoorWSCpkQE6sL7yvHAzwV0Kv1Seb06D6E3pkbfPyXsyE5fBtw8w4SXZtE3tbxHAsttd1NeOxtbQd3TRXt9cHIfSX2aV5JEDiKrqOGQ8ieN2za5f9SnEP18IrN73LNzcC0c-rpJLG-lbJNHkxGryISdvurhxq6NxqCbEU6X7Fz34TygVR-G9vHAfFJ-fTnN9AssfR8egoLRRSL7e_Gmur36mYNT5ukANV_12y9izgVX9Nq5_gRcngutFC7kbC7AYkzMjoUz6xUlRctEzITas-knuSTebdt-tA-_tUAD1o47TbUOE9ZmxZIrctauInySyh52BPH49XG9ZSjlWyaB6PO7D3ukKiYCaS8h" target="_blank">View as PNG</a></small>
+                  <!--@startuml
+skinparam classFontSize 14
+!define LIGHTORANGE
+skinparam componentStyle uml2
+skinparam wrapMessageWidth 100
+skinparam ArrowColor #Maroon
+Class "pkg:WeightScaleShape" [[#pkg:WeightScaleShape]] 
+"pkg:WeightScaleShape" : wo:min_weigth  : xsd:decimal  [1..1]  
+"pkg:WeightScaleShape" : wo:max_weigth  : xsd:decimal  [1..1]  
+"pkg:WeightScaleShape" : wo:step_size  : xsd:decimal  [0..1]  
+Class "pkg:ConceptShape" [[#pkg:ConceptShape]] 
+"pkg:ConceptShape" : dc:description  [1..1]  
+"pkg:ConceptShape" : related|narrower|broader  [0..*]  
+Class "pkg:StatementShape" [[#pkg:StatementShape]] 
+"pkg:StatementShape" : dc:description  [1..1]  
+"pkg:StatementShape" - -> "pkg:StatementValueShape" : rdf:subject [1..1] 
+"pkg:StatementShape" - -> "pkg:StatementValueShape" : rdf:predicate [1..1] 
+"pkg:StatementShape" - -> "pkg:StatementValueShape" : rdf:object [1..1] 
+"pkg:StatementShape" - -> "pkg:WeightShape" : wo:weigth [0..1] 
+"pkg:StatementShape" : pav:authoredBy  [0..*]  
+"pkg:StatementShape" : pav:createdBy  [0..*]  
+"pkg:StatementShape" : pav:curatedBy  [0..*]  
+"pkg:StatementShape" : pav:authoredOn  : xsd:dateTime  [0..1]  
+"pkg:StatementShape" : pav:createdOn  : xsd:dateTime  [0..1]  
+"pkg:StatementShape" : pav:createdAt  [0..*]  
+Class "pkg:WeightShape" [[#pkg:WeightShape]] 
+"pkg:WeightShape" : wo:weigth_value  : xsd:decimal  [1..1]  
+"pkg:WeightShape" - -> "pkg:WeightScaleShape" : wo:scale  [1..1]  
+"pkg:WeightShape" - -> "foaf:Agent" : event:agent  [1..1]  
+hide circle
+hide methods
+hide empty members
+@enduml
+--></section>
+            </div>
+         </div>
+         <h2 id="documentation" class="sp_section_subtitle">Model documentation</h2>
+         <div class="row mt-3">
+            <div class="col">
+               <section id="pkg:StatementShape">
+                  <div class="sp_section_title_table_wrapper">
+                     <h3 class="sp_section_title_table">Statement</h3>
+                  </div>
+                  <ul class="sp_list_description_properties">
+                     <li>Applies to: <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#Statement">rdf:Statement</a></li>
+                  </ul>
+                  <table class="sp_table_propertyshapes table-striped table-responsive">
+                     <thead>
+                        <tr>
+                           <th>Property name</th>
+                           <th>URI</th>
+                           <th>Expected value</th>
+                           <th>Card.</th>
+                           <th class="sp_description_column">Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>Description</td>
+                           <td><code><a href="http://purl.org/dc/terms/description">dc:description</a></code></td>
+                           <td><code>Literal</code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The original textual statement in full.</td>
+                        </tr>
+                        <tr>
+                           <td>Subject</td>
+                           <td><code><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#subject">rdf:subject</a></code></td>
+                           <td><code><a href="#pkg:StatementValueShape">pkg:StatementValueShape</a></code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The subject of the statement. 
+                              	Typically who or what that is performing the action of the statement. 
+                              	The first value of the elements in a RDF triple representation.</td>
+                        </tr>
+                        <tr>
+                           <td>Predicate</td>
+                           <td><code><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate">rdf:predicate</a></code></td>
+                           <td><code><a href="#pkg:StatementValueShape">pkg:StatementValueShape</a></code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The predicate of the statement. 
+                              	Typically the action of the statement. 
+                              	The second value of the elements in a RDF triple representation.</td>
+                        </tr>
+                        <tr>
+                           <td>Object</td>
+                           <td><code><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#object">rdf:object</a></code></td>
+                           <td><code><a href="#pkg:StatementValueShape">pkg:StatementValueShape</a></code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The object of the statement. 
+                              	Typically the receiver of the statements' action. 
+                              	The third value of the elements in a RDF triple representation.</td>
+                        </tr>
+                        <tr>
+                           <td>Weigth</td>
+                           <td><code><a href="http://purl.org/ontology/wo/core#weigth">wo:weigth</a></code></td>
+                           <td><code><a href="#pkg:WeightShape">pkg:WeightShape</a></code><br></td>
+                           <td>
+                              <div style="width:30px">0..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">
+                              </td>
+                        </tr>
+                        <tr>
+                           <td>Authored by</td>
+                           <td><code><a href="http://purl.org/pav/authoredBy">pav:authoredBy</a></code></td>
+                           <td><code></code><br></td>
+                           <td>
+                              <div style="width:30px">0..*</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">Who made the original statement?</td>
+                        </tr>
+                        <tr>
+                           <td>Created by</td>
+                           <td><code><a href="http://purl.org/pav/createdBy">pav:createdBy</a></code></td>
+                           <td><code></code><br></td>
+                           <td>
+                              <div style="width:30px">0..*</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">Who made this representation of the statement?</td>
+                        </tr>
+                        <tr>
+                           <td>Created by</td>
+                           <td><code><a href="http://purl.org/pav/curatedBy">pav:curatedBy</a></code></td>
+                           <td><code></code><br></td>
+                           <td>
+                              <div style="width:30px">0..*</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">Who helped in further describing or analysing this representation of the statement?</td>
+                        </tr>
+                        <tr>
+                           <td>Authored on</td>
+                           <td><code><a href="http://purl.org/pav/authoredOn">pav:authoredOn</a></code></td>
+                           <td><code>xsd:dateTime</code><br></td>
+                           <td>
+                              <div style="width:30px">0..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The timestamp when the statement was made.</td>
+                        </tr>
+                        <tr>
+                           <td>Authored on</td>
+                           <td><code><a href="http://purl.org/pav/createdOn">pav:createdOn</a></code></td>
+                           <td><code>xsd:dateTime</code><br></td>
+                           <td>
+                              <div style="width:30px">0..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The timestamp when this representation of the statement was made.</td>
+                        </tr>
+                        <tr>
+                           <td>Authored on</td>
+                           <td><code><a href="http://purl.org/pav/createdAt">pav:createdAt</a></code></td>
+                           <td><code></code><br></td>
+                           <td>
+                              <div style="width:30px">0..*</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The location where this representation of the statement was made.</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </section>
+            </div>
+         </div><br><div class="row mt-3">
+            <div class="col">
+               <section id="pkg:StatementValueShape">
+                  <div class="sp_section_title_table_wrapper">
+                     <h3 class="sp_section_title_table">pkg:StatementValueShape</h3>
+                  </div>
+                  <p><em>The subject, predicate and object of a statement can be given as a single IRI or literal, e.g., ex:JurassicPark or 'Tom Hanks', as long as this respects the RDF grammar, e.g., literals should only appear as objects. In case the value may not be identifed by a single concrete IRI or literal, the value can be expressed as a skos:Concept, in particular for cases where the value represents a complex value, e.g., 'all the flowers in my garden'.</em></p>
+               </section>
+            </div>
+         </div><br><div class="row mt-3">
+            <div class="col">
+               <section id="pkg:ConceptShape">
+                  <div class="sp_section_title_table_wrapper">
+                     <h3 class="sp_section_title_table">pkg:ConceptShape</h3>
+                  </div>
+                  <ul class="sp_list_description_properties">
+                     <li>Applies to: <a href="http://www.w3.org/2004/02/skos/core#Concept">skos:Concept</a></li>
+                  </ul>
+                  <table class="sp_table_propertyshapes table-striped table-responsive">
+                     <thead>
+                        <tr>
+                           <th>Property name</th>
+                           <th>URI</th>
+                           <th>Expected value</th>
+                           <th>Card.</th>
+                           <th class="sp_description_column">Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>Description</td>
+                           <td><code><a href="http://purl.org/dc/terms/description">dc:description</a></code></td>
+                           <td><code>Literal</code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The textual support in the original statement for this concept.</td>
+                        </tr>
+                        <tr>
+                           <td>Related concepts</td>
+                           <td><code>skos:related|skos:narrower|skos:broader</code></td>
+                           <td><code></code><br></td>
+                           <td>
+                              <div style="width:30px">0..*</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">Any things or concepts related to this concept. Use this relation for linking identified
+                              named entities to this concept. For non-hierarchically related things og concepts,
+                              use skos:related. For hierarchically related things or concepts, use skos:narrower
+                              or skos:broader.</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </section>
+            </div>
+         </div><br><div class="row mt-3">
+            <div class="col">
+               <section id="pkg:WeightShape">
+                  <div class="sp_section_title_table_wrapper">
+                     <h3 class="sp_section_title_table">pkg:WeightShape</h3>
+                  </div>
+                  <p><em>Weights are used to express preferences about statements. A weight is specified with a specific value on a given scale and must be related to the agent for which the preference holds.</em></p>
+                  <table class="sp_table_propertyshapes table-striped table-responsive">
+                     <thead>
+                        <tr>
+                           <th>Property name</th>
+                           <th>URI</th>
+                           <th>Expected value</th>
+                           <th>Card.</th>
+                           <th class="sp_description_column">Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>Weigth value</td>
+                           <td><code><a href="http://purl.org/ontology/wo/core#weigth_value">wo:weigth_value</a></code></td>
+                           <td><code>xsd:decimal</code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The specific value of a weight.</td>
+                        </tr>
+                        <tr>
+                           <td>Weigth scale</td>
+                           <td><code><a href="http://purl.org/ontology/wo/core#scale">wo:scale</a></code></td>
+                           <td><code><a href="#pkg:WeightScaleShape">pkg:WeightScaleShape</a></code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The scale that this weight uses.</td>
+                        </tr>
+                        <tr>
+                           <td>Weigth value</td>
+                           <td><code><a href="http://purl.org/NET/c4dm/event.owl#agent">event:agent</a></code></td>
+                           <td><code>foaf:Agent</code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The agent for which this preference holds.</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </section>
+            </div>
+         </div><br><div class="row mt-3">
+            <div class="col">
+               <section id="pkg:WeightScaleShape">
+                  <div class="sp_section_title_table_wrapper">
+                     <h3 class="sp_section_title_table">pkg:WeightScaleShape</h3>
+                  </div>
+                  <ul class="sp_list_description_properties">
+                     <li>Applies to: <a href="http://purl.org/ontology/wo/core#Scale">wo:Scale</a></li>
+                  </ul>
+                  <table class="sp_table_propertyshapes table-striped table-responsive">
+                     <thead>
+                        <tr>
+                           <th>Property name</th>
+                           <th>URI</th>
+                           <th>Expected value</th>
+                           <th>Card.</th>
+                           <th class="sp_description_column">Description</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>Min weight</td>
+                           <td><code><a href="http://purl.org/ontology/wo/core#min_weigth">wo:min_weigth</a></code></td>
+                           <td><code>xsd:decimal</code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The minimum value of this scale</td>
+                        </tr>
+                        <tr>
+                           <td>Max weight</td>
+                           <td><code><a href="http://purl.org/ontology/wo/core#max_weigth">wo:max_weigth</a></code></td>
+                           <td><code>xsd:decimal</code><br></td>
+                           <td>
+                              <div style="width:30px">1..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The maximum value of this scale</td>
+                        </tr>
+                        <tr>
+                           <td>Step size</td>
+                           <td><code><a href="http://purl.org/ontology/wo/core#step_size">wo:step_size</a></code></td>
+                           <td><code>xsd:decimal</code><br></td>
+                           <td>
+                              <div style="width:30px">0..1</div>
+                           </td>
+                           <td class="sp_table_propertyshapes_col_description">The step size of this scale. Values should be a multiple of this step size offset
+                              from the minimum weight.</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </section>
+            </div>
+         </div><br></div><script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js">//</script><script>				
+					anchors.options = {
+	                    icon: '#'
+	                  };
+               		anchors.options.placement = 'left';
+					anchors.add();		
+				</script></body>
+</html>
