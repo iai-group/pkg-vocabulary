@@ -18,6 +18,10 @@
 @prefix pkg:   <http://w3id.org/pkg/> .
 @base <http://w3id.org/pkg/0.1.0-SNAPSHOT/> .
 
+###
+### VOCABULARY METADATA
+###
+
 pkg:PKGVocabulary a owl:Ontology ;
     dc:title "Personal Knowledge Graph (PKG) Vocabulary" ;
 
@@ -52,10 +56,11 @@ used for expressing facts and statements for personal knowledge graphs
 (PKG), that is, facts and statements where personalisation data, e.g.,
 who made the statement, who the statement is about, is at the core.
 
-Statements are represented by [RDF's reification vocabulary](https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab) with
-additional provenance, authoring and versioning data (using the 
-[PAV ontology](https://pav-ontology.github.io/pav/)), and the possibility
-of assigning preferences to statements (using the 
+Statements are represented by 
+[RDF's reification vocabulary](https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab) 
+with additional provenance, authoring and versioning data (using the 
+[PAV ontology](https://pav-ontology.github.io/pav/)), 
+and the possibility of assigning preferences to statements (using the 
 [Weighting Ontology](http://purl.org/ontology/wo/core)). Complex values are
 recommended expressed using SKOS.
 """ ;
@@ -145,6 +150,11 @@ the IRI `my:I`, in the owner's home. The example includes comments inline.
 #skos:changeNote .
 
 .
+
+
+###
+### SHACL SHAPES
+###
 
 pkg:StatementShape a sh:NodeShape ;
 
@@ -272,3 +282,15 @@ pkg:WeightScaleShape a sh:NodeShape ;
     sh:order 3
   ]
 .
+
+###
+### VOCABULARY TERMS
+###
+
+# Scale
+
+pkg:StandardScale a wo:Scale ;
+  dc:description "A standard scale from -1 to 1 with 0.1 steps.";   
+  wo:max_weigth  1.0 ;
+  wo:min_weigth -1.0 ;
+  wo:step_size   0.1 .
