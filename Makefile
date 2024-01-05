@@ -12,6 +12,7 @@ PWD = $(shell pwd)
 	rm $@.temp
 
 %.html: %.ttl
+	rapper -gc $<
 	curl https://shacl-play.sparna.fr/play/doc -F includeDiagram=on -F shapesSource=file -F inputShapeFile=@$< > $@
 
 %-val.txt: % schema/pkg-vocabulary.shacl.ttl
