@@ -1,5 +1,6 @@
 @prefix dc:    <http://purl.org/dc/terms/> .
 @prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
 @prefix event: <http://purl.org/NET/c4dm/event.owl#> .
 @prefix ex:    <http://example.com#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
@@ -14,32 +15,32 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix wo:    <http://purl.org/ontology/wo/core#> .
 
-@prefix pkg:   <http://example.com/pkg> .
-@base <https://iai-group.github.io/pkg-vocabulary/0.1.0-SNAPSHOT/> .
+@prefix pkg:   <http://w3id.org/pkg/> .
+@base <http://w3id.org/pkg/0.1.0-SNAPSHOT/> .
 
 pkg:PKGVocabulary a owl:Ontology ;
     dc:title "Personal Knowledge Graph (PKG) Vocabulary" ;
 
     vann:preferredNamespacePrefix "pkg" ;
+    vann:preferredNamespaceUri "http://w3id.org/pkg/" ;
 
-    #TODO vann:preferredNamespaceUri
-    #owl:priorVersion 
-    #owl:versionIRI 
-
+    #owl:priorVersion
+    owl:versionIRI <> ;
     owl:versionInfo "0.1.0-SNAPSHOT" ;
   
     dcat:distribution 
        [ dc:format <https://www.iana.org/assignments/media-types/text/turtle> ;
-         dcat:downloadURL <./pkg-vocabulary.shacl.ttl> ] ;
+         dcat:downloadURL <pkg-vocabulary.shacl.ttl> ] ;
     #   [ dc:format <https://www.iana.org/assignments/media-types/application/ld+json> ;
     #     dcat:downloadURL <....json> ] 
 
-    # doap:repository
+
+    doap:repository <https://github.com/iai-group/pkg-vocabulary> ;
 
     dc:creator "Martin G. Skjæveland" ;
-    # dc:contributor 
+    dc:contributor "Krisztian Balog", "Nolwenn Bernard" ;
 
-    #dc:created "2023-09-19" ;
+    dc:created "2024-04-03" ;
     #dc:issued "2023-10-23" ;
     #dc:modified "2023-09-26" ;
 
@@ -51,17 +52,99 @@ used for expressing facts and statements for personal knowledge graphs
 (PKG), that is, facts and statements where personalisation data, e.g.,
 who made the statement, who the statement is about, is at the core.
 
-Statements are represented by RDF's reification vocabulary
-(https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab) with
-additional provenance, authoring and versioning data (using the PAV
-ontology), and the possibility of assigning preferences to statements
-(using the Weighting Ontology). Complex values are recommended
-expressed using SKOS.
+Statements are represented by [RDF's reification vocabulary](https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab) with
+additional provenance, authoring and versioning data (using the 
+[PAV ontology](https://pav-ontology.github.io/pav/)), and the possibility
+of assigning preferences to statements (using the 
+[Weighting Ontology](http://purl.org/ontology/wo/core)). Complex values are
+recommended expressed using SKOS.
 """ ;
-    #dc:description "" ;
-    #skos:changeNote    
+
+dc:description """
+
+### Example 1
+
+This example demonstrates how the statement "I dislike all movies with
+the actor Tom Cruise." is represented using the vocabulary. The
+statement is expressed/uttered by the owner of the PKG, represented by
+the IRI `my:I`, in the owner's home. The example includes comments inline.
+
+```
+[] a rdf:Statement ;
+
+  ## CONTENT
+
+  ## The original textual statement in full.
+
+  dc:description  
+    "I dislike all movies with the actor Tom Cruise."@en ;
+
+  ## The statement is split into a subject, predicate and object.
+  
+  ## Here, my:I  represents the owner of the PKG.
+
+  rdf:subject
+    my:I ;
+
+  ## No readily available IRI for "dislike" was found, so we represent
+  ## this as a skos:Concept where the term(s) that represent the
+  ## meaning of the concept should be included as a textual
+  ## description using `dc:description`.
+
+  rdf:predicate [ a skos:Concept ; dc:description "dislike" ] ;
+
+  ## Complex statements are also typically represented using
+  ## skos:Concept, which can be additionally related to other concepts
+  ## using the SKOS properties: skos:related, skos:broader,
+  ## skos:narrower --- or other applicable properties.
+
+  rdf:object
+    [ 
+      a skos:Concept ; dc:description "All movies with the actor Tom Cruise" ;
+        skos:related ex:Movie, ex:actor, ex:TomCruise ;
+    ] 
+
+  ## LOGGING
+
+  # Who made the original statement?
+
+  pav:authoredBy       
+    my:I ;
+
+  # Who created this representation of the statement?
+
+  pav:createdBy        
+    my:I ;
+
+  # Who helped in further describing analysing the statement?
+
+  # pav:curatedBy        
+
+  # When was the original statement made/expressed/uttered?
+
+  pav:authoredOn       
+    "2023-12-15T21:12:40"^^xsd:dateTime ;
+
+ # When this representation was made?
+
+  pav:createdOn        
+    "2023-12-15T21:12:40"^^xsd:dateTime ;
+
+  # Where this representation was made?
+
+  pav:createdAt        
+    my:home ;
+
 .
 
+```
+
+"""
+ ;
+
+#skos:changeNote .
+
+.
 
 pkg:StatementShape a sh:NodeShape ;
 
@@ -69,7 +152,7 @@ pkg:StatementShape a sh:NodeShape ;
 
   # skos:definition """ """ ;
   # skos:changeNote
-  skos:example <./example/ex1.ttl> ;
+  skos:example <example/ex1.ttl> ;
   sh:order 1;
   sh:property
 
@@ -135,7 +218,7 @@ pkg:StatementShape a sh:NodeShape ;
 pkg:StatementValueShape a sh:NodeShape ;
   sh:targetObjectsOf rdf:subject, rdf:predicate, rdf:object ;
   sh:order 2;
-  rdfs:comment "The subject, predicate and object of a statement can be given as a single IRI or literal, e.g., ex:JurassicPark or 'Tom Hanks', as long as this respects the RDF grammar, e.g., literals should only appear as objects. In case the value may not be identifed by a single concrete IRI or literal, the value can be expressed as a skos:Concept, in particular for cases where the value represents a complex value, e.g., 'all the flowers in my garden'." 
+  rdfs:comment "The subject, predicate and object of a statement can be given as a single IRI or literal, e.g., ex:JurassicPark or 'Tom Hanks', as long as this respects the RDF grammar, e.g., literals should only appear as objects. In case the value may not be identified by a single concrete IRI or literal, the value can be expressed as a skos:Concept, in particular for cases where the value represents a complex value, e.g., 'all the flowers in my garden'." 
   
 .
 
@@ -150,7 +233,7 @@ pkg:ConceptShape a sh:NodeShape ;
 
   [ sh:path [ sh:alternativePath ( skos:related skos:narrower skos:broader ) ] ; sh:minCount 0 ;
       sh:name "Related concepts" ; sh:order 1.2 ;
-      sh:description "Any things or concepts related to this concept. Use this relation for linking identified named entities to this concept. For non-hierarchically related things og concepts, use skos:related. For hierarchically related things or concepts, use skos:narrower or skos:broader." ] 
+      sh:description "Any things or concepts related to this concept. Use this relation for linking identified named entities to this concept. For non-hierarchically related things or concepts, use skos:related. For hierarchically related things or concepts, use skos:narrower or skos:broader." ] 
 
 .
 
