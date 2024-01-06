@@ -1,8 +1,10 @@
 @prefix dc:    <http://purl.org/dc/terms/> .
 @prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
 @prefix event: <http://purl.org/NET/c4dm/event.owl#> .
 @prefix ex:    <http://example.com#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix pav:   <http://purl.org/pav/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -14,52 +16,77 @@
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix wo:    <http://purl.org/ontology/wo/core#> .
 
+@prefix pkg:   <http://w3id.org/pkg/> .
+
 @prefix my:   <http://example.com/my> .
-@prefix pkg:   <http://example.com/pkg> .
 
 [] a rdf:Statement ;
 
-  ## LOGGING OF STATEMENT
+  ## CONTENT
 
-  pav:authoredBy       # who made the original statement
-    my:I ;
+  ## The original textual statement in full.
 
-  pav:createdBy        # who created this representation of the statement
-    my:I ;
-
-  #pav:curatedBy        # who helped in furter describing analysing the statement
-    
-  pav:authoredOn       # when the original statement was made
-    "2023-12-15T21:12:40"^^xsd:dateTime ;
-
-  pav:createdOn        # when this representation was made
-    "2023-12-15T21:12:40"^^xsd:dateTime ;
-  pav:createdAt        # where this representation was made
-    my:home ;
-
-  ## CONTENT OF STATEMENT
-
-  dc:description      # the original textual statement in full
+  dc:description
     "I dislike all movies with the actor Tom Cruise."@en ;
+
+  ## The statement is split into a subject, predicate and object.
+
+  ## Here, my:I  represents the owner of the PKG.
 
   rdf:subject
     my:I ;
-  rdf:predicate
-    [ a skos:Concept ; dc:description "dislike" ] ;
+
+  ## No readily available IRI for "dislike" was found, so we represent
+  ## this as a skos:Concept where the term(s) that represent the
+  ## meaning of the concept should be included as a textual
+  ## description using `dc:description`.
+
+  rdf:predicate [ a skos:Concept ; dc:description "dislike" ] ;
+
+  ## Complex statements are also typically represented using
+  ## skos:Concept, which can be additionally related to other concepts
+  ## using the SKOS properties: skos:related, skos:broader,
+  ## skos:narrower --- or other applicable properties.
+
   rdf:object
-    [ a skos:Concept ; dc:description "All movies with the actor Tom Cruise" ;
-        skos:related ex:Movie, ex:actor, ex:TomCruise ;
+    [
+      a skos:Concept ; dc:description "All movies with the actor Tom Cruise" ;
+	skos:related <https://schema.org/actor>, <http://dbpedia.org/resource/Tom_Cruise> ;
+        skos:broader <https://schema.org/Movie> ; 
+    ]
+
+  ## LOGGING
+
+  # Who made the original statement?
+
+  pav:authoredBy
+    my:I ;
+
+  # Who created this representation of the statement?
+
+  pav:createdBy
+    my:I ;
+
+  # Who helped in further describing analysing the statement?
+
+  # pav:curatedBy
+
+  # When was the original statement made/expressed/uttered?
+
+  pav:authoredOn
+    "2023-12-15T21:12:40"^^xsd:dateTime ;
+
+ # When this representation was made?
+
+  pav:createdOn
+    "2023-12-15T21:12:40"^^xsd:dateTime ;
+
+  # Where this representation was made?
+
+  pav:createdAt
+    [ a geo:Point ;
+      geo:lat 45.201 ;
+      geo:long 10.128
     ] 
 
-  #dc:accessRights ???
-                       
-  #wo:weigth            # weight
-  #  [ wo:weigth_value -1.0 ;
-  #    wo:scale :StandardScale ]
-
 .
-
-my:StandardScale a wo:Scale ;
-  wo:max_weigth  1.0 ;
-  wo:min_weigth -1.0 ;
-  wo:step_size   0.1 .
