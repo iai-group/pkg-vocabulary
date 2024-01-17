@@ -6,7 +6,7 @@ The PKG Vocabulary is defined by a set of SHACL shapes patterns definition over 
  - Statements are represented by RDF's reification vocabulary (https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab)
  - with additional provenance, authoring and versioning data (using the PAV ontology (https://pav-ontology.github.io/pav/)),
  - and the possibility of assigning preferences to statements (using the Weighting Ontology and The Weighted Interests Vocabulary (http://purl.org/ontology/wo/core , http://purl.org/ontology/wi/core)).
- - Complex values are recommended expressed using SKOS' Concepts following the ~pkg:ConceptShape~ pattern.
+ - Complex values are recommended expressed using SKOS' (http://www.w3.org/2004/02/skos/core) Concepts following the ~pkg:ConceptShape~ pattern.
 
 ** Examples
 *** "I dislike all movies with the actor Tom Cruise"
@@ -298,7 +298,7 @@ pkg:PreferenceShape a sh:NodeShape ;
   ] ,
   [ sh:path pav:derivedFrom ; sh:minCount 0 ; sh:node pkg:StatementShape ;
     sh:name "Weigth scale" ; sh:description "The statement from which the preference was derived." ;
-    sh:order 2 ;
+    sh:order 3 ;
   ] .
 #+END_SRC
 
