@@ -5,8 +5,8 @@ The vocabulary is published at is namespace http://w3id.org/pkg/
 The PKG Vocabulary is defined by a set of SHACL shapes patterns definition over largely well-established vocabularies:
  - Statements are represented by RDF's reification vocabulary (https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab)
  - with additional provenance, authoring and versioning data (using the PAV ontology (https://pav-ontology.github.io/pav/)),
- - and the possibility of assigning preferences to statements (using the Weighting Ontology (http://purl.org/ontology/wo/core)).
- - Complex values are recommended expressed using SKOS' Concepts following the ~pkg:ConceptShape~ pattern.
+ - and the possibility of assigning preferences to statements (using the Weighting Ontology and The Weighted Interests Vocabulary (http://purl.org/ontology/wo/core , http://purl.org/ontology/wi/core)).
+ - Complex values are recommended expressed using SKOS' (http://www.w3.org/2004/02/skos/core) Concepts following the ~pkg:ConceptShape~ pattern.
 
 ** Examples
 *** "I dislike all movies with the actor Tom Cruise"
@@ -15,7 +15,7 @@ The PKG Vocabulary is defined by a set of SHACL shapes patterns definition over 
 #+BEGIN_SRC ttl
 @prefix my:   <http://example.com/my> .
 
-[] a rdf:Statement ;
+_:st1 a rdf:Statement ;
 
   ## CONTENT
 
@@ -71,21 +71,35 @@ The PKG Vocabulary is defined by a set of SHACL shapes patterns definition over 
   pav:authoredOn
     "2023-12-15T21:12:40"^^xsd:dateTime ;
 
- # When this representation was made?
+  # When this representation was made?
 
   pav:createdOn
     "2023-12-15T21:12:40"^^xsd:dateTime ;
 
-  # Where this representation was made?
+  # Where was this representation was made?
 
   pav:createdAt
     [ a geo:Point ;
       geo:lat 45.201 ;
       geo:long 10.128
     ] 
-
 .
+
+  ## FURTHER ANALYSIS
+  ## A statement may be analysed in more details in terms of preference disclose.
+  ## In our example, it is possible to derive I's negative preference towards Tom Cruise.
+  my:I wi:preference [
+    pav:derivedFrom _:st1 ;
+    wi:topic <http://dbpedia.org/resource/Tom_Cruise> ;
+    wo:weight [ 
+      wo:weight_value -1.0 ;
+      wo:scale pkg:StandardScale
+    ]
+  ]
+.
+
 #+END_SRC
+
 
 #+BEGIN_SRC ttl :tangle example/ex1.ttl :noweb strip-export :exports none :mkdirp yes
 <<prefixes>>
@@ -266,37 +280,53 @@ skos:broader.
 
 #+END_SRC
 
+**** Preference
+
+#+NAME: voc-shacl-pattern-preference
+#+BEGIN_SRC ttl
+pkg:PreferenceShape a sh:NodeShape ;
+   rdfs:comment "Preference is used to express the sentiment of the Subject of the statement toward its Object. The sentiment is represented as a bounded weight, e.g., like is 1 and dislike is -1." ;
+  sh:order 4;
+  sh:targetObjectsOf wi:preference ;
+  sh:property
+  [ sh:path wi:topic ; sh:minCount 1 ;
+    sh:name "Preference topic" ; sh:description "The topic of the preference." ;
+    sh:order 1 ;
+  ] ,
+  [ sh:path wo:weight ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:name "Weigth value" ; sh:description "The specific value of a weight." ;
+    sh:order 2 ;
+  ] ,
+  [ sh:path pav:derivedFrom ; sh:minCount 0 ; sh:node pkg:StatementShape ;
+    sh:name "Weigth scale" ; sh:description "The statement from which the preference was derived." ;
+    sh:order 3 ;
+  ] .
+#+END_SRC
+
 **** Weight
 
 #+NAME: voc-shacl-pattern-weight
 #+BEGIN_SRC ttl
-
-
 pkg:WeightShape a sh:NodeShape ;
-  rdfs:comment "Weights are used to express preferences about statements. A weight is specified with a specific value on a given scale and must be related to the agent for which the preference holds." ;
-  sh:order 4;
-  sh:targetSubjectsOf wo:weight ;
+  sh:order 5;
+  sh:targetObjectsOf wo:weight ;
   sh:property
-  [ sh:path wo:weigth_value ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
-    sh:name "Weigth value" ; sh:description "The specific value of a weight." ;
-    sh:order 1 ;
+  [ sh:path wo:weight_value ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+    sh:name "Weight value" ; sh:description "The maximum value of this scale" ;
+    sh:order 1
   ] ,
-  [ sh:path event:agent ; sh:minCount 1 ; sh:maxCount 1 ; sh:class foaf:Agent ;
-    sh:name "Weigth value" ; sh:description "The agent for which this preference holds." ;
-    sh:order 3 ;
-  ] ,
-  [ sh:path wo:scale ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wo:Scale ;
-    sh:name "Weigth scale" ; sh:description "The scale that this weight uses." ;
-    sh:order 2 ;
-  ] .
-
+  [ sh:path wo:scale ; sh:minCount 1 ; sh:maxCount 1 ; sh:node pkg:WeightScaleShape ;
+    sh:name "Min weight" ; sh:description "The minimum value of this scale" ;
+    sh:order 2
+  ] 
+.
 #+END_SRC
+
 
 **** Weight scale
 
 #+NAME: voc-shacl-pattern-weight-scale
 #+BEGIN_SRC ttl
-
 pkg:WeightScaleShape a sh:NodeShape ;
   sh:order 5;
   sh:targetClass wo:Scale ;
@@ -314,7 +344,6 @@ pkg:WeightScaleShape a sh:NodeShape ;
     sh:order 3
   ]
 .
-
 #+END_SRC
 
 
@@ -366,6 +395,7 @@ the IRI `my:I`. The example includes comments inline.
 <<voc-shacl-pattern-statement>>
 <<voc-shacl-pattern-statementvalue>>
 <<voc-shacl-pattern-concept>>
+<<voc-shacl-pattern-preference>>
 <<voc-shacl-pattern-weight>>
 <<voc-shacl-pattern-weight-scale>>
 
@@ -398,6 +428,7 @@ the IRI `my:I`. The example includes comments inline.
 @prefix vann:  <http://purl.org/vocab/vann/> .
 @prefix vs:    <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix wi:    <http://purl.org/ontology/wi/core#> .
 @prefix wo:    <http://purl.org/ontology/wo/core#> .
 
 @prefix pkg:   <http://w3id.org/pkg/> .

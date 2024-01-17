@@ -20,7 +20,10 @@ install: \
 	touch $@
 
 pkg-vocabulary.shacl.ttl: .tangle
-	$(JENA)/bin/shacl v --text --shapes  http://www.w3.org/ns/shacl-shacl --data $@ > $@-val.txt
+
+%.shacl.ttl-val.txt: %.shacl.ttl
+	$(JENA)/bin/shacl v --text --shapes  http://www.w3.org/ns/shacl-shacl --data $< > $@
+	cat $@
 
 %.json: %.ttl
 	$(JENA)/bin/riot --formatted=JSONLD $< > $@.temp
@@ -34,10 +37,12 @@ pkg-vocabulary.shacl.ttl: .tangle
 
 %-val.txt: % pkg-vocabulary.shacl.ttl
 	$(JENA)/bin/shacl v --text --shapes pkg-vocabulary.shacl.ttl --data $< > $@
+	cat $@
 
 
 all: \
 	pkg-vocabulary.shacl.html \
+	pkg-vocabulary.shacl.ttl-val.txt \
 	$(examples-val)
 
 docs/%: all
