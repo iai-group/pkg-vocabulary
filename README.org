@@ -85,8 +85,9 @@ _:st1 a rdf:Statement ;
     ] 
 .
 
-  ## FURTHER ANALYSIS, the statement may be analysed in more detail, if possible, e.g., 
-  ## from the statement we can derive I's negative preference towards Tom Cruise.
+  ## FURTHER ANALYSIS
+  ## A statement may be analysed in more details in terms of preference disclose.
+  ## In our example, it is possible to derive I's negative preference towards Tom Cruise.
   my:I wi:preference [
     pav:derivedFrom _:st1 ;
     wi:topic <http://dbpedia.org/resource/Tom_Cruise> ;
