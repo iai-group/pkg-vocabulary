@@ -131,11 +131,14 @@ pkg:PKGVocabulary a owl:Ontology ;
     doap:repository <https://github.com/iai-group/pkg-vocabulary> ;
 
     dc:creator "Martin G. Skjæveland" ;
-    dc:contributor "Krisztian Balog", "Nolwenn Bernard" ;
+    dc:contributor "Krisztian Balog", "Nolwenn Bernard" , "Petra Galuscakova" ;
 
     dc:created "2024-01-04" ;
     #dc:issued "2023-10-23" ;
     #dc:modified "2023-09-26" ;
+
+    pkg:readAccessRights "MovieBot", "IMDB" ;
+    pkg:writeAccessRights "MovieBot" ;
 
     dc:abstract """
 
@@ -227,7 +230,18 @@ pkg:StatementShape a sh:NodeShape ;
     [ sh:path wo:weigth ; sh:minCount 0 ; sh:maxCount 1 ; sh:node pkg:WeightShape ;
 	sh:name "Weigth" ; sh:order 2.1 ;
 	sh:description """
-	""" ]
+	""" ] ,
+
+    # access
+
+    [ sh:path pkg:readAccessRights ; sh:minCount 0 ;
+	sh:name "Read access" ; sh:order 4.1 ;
+	sh:description "Who has read access to the statement?" ] ,
+
+    [ sh:path pkg:writeAccessRights ; sh:minCount 0 ;
+	sh:name "Write access" ; sh:order 4.2 ;
+	sh:description "Who has write access to the statement?" ]
+
 .
 
 #+END_SRC
@@ -358,6 +372,19 @@ pkg:StandardScale a wo:Scale ;
   wo:step_size   0.1 .
 #+END_SRC
 
+#+NAME: voc-terms-accessRights
+#+BEGIN_SRC ttl
+pkg:readAccessRights  rdfs:subPropertyOf dc:accessRights ;
+  rdfs:domain rdf:Statement ;
+  dc:description "Who has read access to the statement?" 
+.
+
+pkg:writeAccessRights rdfs:subPropertyOf dc:accessRights ;
+  rdfs:domain rdf:Statement ;
+  dc:description "Who has write access to the statement?" 
+.
+#+END_SRC
+
 *** tangle                                                         :noexport:
 
 #+BEGIN_SRC ttl :tangle pkg-vocabulary.shacl.ttl :noweb strip-export
@@ -404,9 +431,17 @@ the IRI `my:I`. The example includes comments inline.
 ###
 
 <<voc-terms-standardscale>>
+<<voc-terms-accessRights>>
 
 #+END_SRC
 
+#+BEGIN_SRC ttl :tangle pkg-vocabulary-terms.ttl :noweb strip-export
+<<prefixes>>
+
+<<voc-terms-standardscale>>
+<<voc-terms-accessRights>>
+
+#+END_SRC
 
 ** Prefixes
 
