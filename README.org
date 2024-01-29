@@ -82,7 +82,11 @@ _:st1 a rdf:Statement ;
     [ a geo:Point ;
       geo:lat 45.201 ;
       geo:long 10.128
-    ] 
+    ] ;
+
+  pkg:readAccessRights "MovieBot", "IMDB" ;
+  pkg:writeAccessRights "MovieBot" ;
+
 .
 
   ## FURTHER ANALYSIS
@@ -136,9 +140,6 @@ pkg:PKGVocabulary a owl:Ontology ;
     dc:created "2024-01-04" ;
     #dc:issued "2023-10-23" ;
     #dc:modified "2023-09-26" ;
-
-    pkg:readAccessRights "MovieBot", "IMDB" ;
-    pkg:writeAccessRights "MovieBot" ;
 
     dc:abstract """
 
