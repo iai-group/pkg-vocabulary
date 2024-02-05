@@ -1,6 +1,8 @@
-* PKG Vocabulary
+** Introduction                                                       :index:
 
-The vocabulary is published at is namespace http://w3id.org/pkg/
+The vocabulary is published at is namespace http://w3id.org/pkg/ .
+
+The sources are available at https://github.com/iai-group/pkg-vocabulary .
 
 The PKG Vocabulary is defined by a set of SHACL shapes patterns definition over largely well-established vocabularies:
  - Statements are represented by RDF's reification vocabulary (https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab)
@@ -123,7 +125,7 @@ pkg:PKGVocabulary a owl:Ontology ;
 
     #owl:priorVersion
     owl:versionIRI <> ;
-    owl:versionInfo "0.1.0-SNAPSHOT" ;
+    owl:versionInfo "0.1.0" ;
 
     dcat:distribution
        [ dc:format <https://www.iana.org/assignments/media-types/text/turtle> ;
@@ -138,7 +140,7 @@ pkg:PKGVocabulary a owl:Ontology ;
     dc:contributor "Krisztian Balog", "Nolwenn Bernard" , "Petra Galuscakova" ;
 
     dc:created "2024-01-04" ;
-    #dc:issued "2023-10-23" ;
+    dc:issued "2023-02-05" ;
     #dc:modified "2023-09-26" ;
 
     dc:abstract """
@@ -391,7 +393,7 @@ pkg:writeAccessRights rdfs:subPropertyOf dc:accessRights ;
 #+BEGIN_SRC ttl :tangle pkg-vocabulary.shacl.ttl :noweb strip-export
 <<prefixes>>
 
-@base <http://w3id.org/pkg/0.1.0-SNAPSHOT/> .
+@base <http://w3id.org/pkg/0.1.0/> .
 
 <<voc-metadata>>
 
@@ -473,20 +475,20 @@ the IRI `my:I`. The example includes comments inline.
 
 ** Versions                                                           :index:
 
- - http://w3id.org/pkg/0.1.0-SNAPSHOT/
+ - http://w3id.org/pkg/0.1.0/
 
 ** org-mode setup
 #+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
 #+OPTIONS: author:nil broken-links:nil c:nil creator:nil
-#+OPTIONS: d:(not "LOGBOOK") date:nil e:t email:nil f:t inline:t num:t
+#+OPTIONS: d:(not "LOGBOOK") date:nil e:t email:nil f:t inline:t num:nil
 #+OPTIONS: p:nil pri:nil prop:nil stat:t tags:nil tasks:nil tex:t
 #+OPTIONS: timestamp:nil title:t toc:nil todo:nil |:t
-#+TITLE: PKG Vocabulary
-#+DATE: <2024-01-09 ti.>
-#+AUTHOR: Martin
-#+EMAIL: martige@ifi-martige-3
+#+TITLE: Personal Knowledge Graph (PKG) Vocabulary
 #+LANGUAGE: en
 #+SELECT_TAGS: index
 #+EXCLUDE_TAGS: noexport
-#+CREATOR: Emacs 27.1 (Org mode 9.1.14)
 #+EXPORT_FILE_NAME: docs/index.html
+#+HTML_DOCTYPE: xhtml-strict
+#+HTML_CONTAINER: div
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+TOC: headlines 1
