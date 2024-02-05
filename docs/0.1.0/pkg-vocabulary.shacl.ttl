@@ -1,0 +1,362 @@
+@prefix dc:    <http://purl.org/dc/terms/> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix ex:    <http://example.com#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pav:   <http://purl.org/pav/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann:  <http://purl.org/vocab/vann/> .
+@prefix vs:    <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix wi:    <http://purl.org/ontology/wi/core#> .
+@prefix wo:    <http://purl.org/ontology/wo/core#> .
+
+@prefix pkg:   <http://w3id.org/pkg/> .
+
+@base <http://w3id.org/pkg/0.1.0/> .
+
+pkg:PKGVocabulary a owl:Ontology ;
+    dc:title "Personal Knowledge Graph (PKG) Vocabulary" ;
+
+    vann:preferredNamespacePrefix "pkg" ;
+    vann:preferredNamespaceUri "http://w3id.org/pkg/" ;
+
+    #owl:priorVersion
+    owl:versionIRI <> ;
+    owl:versionInfo "0.1.0" ;
+
+    dcat:distribution
+       [ dc:format <https://www.iana.org/assignments/media-types/text/turtle> ;
+	 dcat:downloadURL <pkg-vocabulary.shacl.ttl> ] ;
+    #   [ dc:format <https://www.iana.org/assignments/media-types/application/ld+json> ;
+    #     dcat:downloadURL <....json> ]
+
+
+    doap:repository <https://github.com/iai-group/pkg-vocabulary> ;
+
+    dc:creator "Martin G. Skjæveland" ;
+    dc:contributor "Krisztian Balog", "Nolwenn Bernard" , "Petra Galuscakova" ;
+
+    dc:created "2024-01-04" ;
+    dc:issued "2023-02-05" ;
+    #dc:modified "2023-09-26" ;
+
+    dc:abstract """
+
+The PKG Vocabulary defines a pattern for expressing reified statements
+that may be annotated with provenance data. The vocabulary is designed
+to express facts and statements for personal knowledge graphs
+(PKGs), that is, facts and statements where personalisation data, e.g.,
+who made the statement, who the statement is about, is at the core.
+
+Statements are represented by
+[RDF's reification vocabulary](https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab)
+with additional provenance, authoring and versioning data (using the
+[PAV ontology](https://pav-ontology.github.io/pav/)),
+and the possibility of assigning preferences to statements (using the
+[Weighting Ontology](http://purl.org/ontology/wo/core)). Complex values are
+recommended expressed using SKOS' `Concepts` following the `pkg:ConceptShape` pattern.
+
+""" ;
+
+dc:description """
+
+### Example 1
+
+This example demonstrates how the statement "I dislike all movies with
+the actor Tom Cruise." is represented using the vocabulary. The
+statement is expressed/uttered by the owner of the PKG, represented by
+the IRI `my:I`. The example includes comments inline.
+
+```
+@prefix my:   <http://example.com/my> .
+
+_:st1 a rdf:Statement ;
+
+  ## CONTENT
+
+  ## The original textual statement in full.
+
+  dc:description
+    "I dislike all movies with the actor Tom Cruise."@en ;
+
+  ## The statement is split into a subject, predicate and object.
+
+  ## Here, my:I  represents the owner of the PKG.
+
+  rdf:subject
+    my:I ;
+
+  ## No readily available IRI for "dislike" was found, so we represent
+  ## this as a skos:Concept where the term(s) that represent the
+  ## meaning of the concept should be included as a textual
+  ## description using `dc:description`.
+
+  rdf:predicate [ a skos:Concept ; dc:description "dislike" ] ;
+
+  ## Complex statements are also typically represented using
+  ## skos:Concept, which can be additionally related to other concepts
+  ## using the SKOS properties: skos:related, skos:broader,
+  ## skos:narrower --- or other applicable properties.
+
+  rdf:object
+    [
+      a skos:Concept ; dc:description "All movies with the actor Tom Cruise" ;
+	skos:related <https://schema.org/actor>, <http://dbpedia.org/resource/Tom_Cruise> ;
+        skos:broader <https://schema.org/Movie> ; 
+    ] ;
+
+  ## LOGGING
+
+  # Who made the original statement?
+
+  pav:authoredBy
+    my:I ;
+
+  # Who created this representation of the statement?
+
+  pav:createdBy
+    my:I ;
+
+  # Who helped in further describing/analysing the statement?
+
+  # pav:curatedBy
+
+  # When was the original statement made/expressed/uttered?
+
+  pav:authoredOn
+    "2023-12-15T21:12:40"^^xsd:dateTime ;
+
+  # When this representation was made?
+
+  pav:createdOn
+    "2023-12-15T21:12:40"^^xsd:dateTime ;
+
+  # Where was this representation was made?
+
+  pav:createdAt
+    [ a geo:Point ;
+      geo:lat 45.201 ;
+      geo:long 10.128
+    ] ;
+
+  pkg:readAccessRights "MovieBot", "IMDB" ;
+  pkg:writeAccessRights "MovieBot" ;
+
+.
+
+  ## FURTHER ANALYSIS
+  ## A statement may be analysed in more details in terms of preference disclose.
+  ## In our example, it is possible to derive I's negative preference towards Tom Cruise.
+  my:I wi:preference [
+    pav:derivedFrom _:st1 ;
+    wi:topic <http://dbpedia.org/resource/Tom_Cruise> ;
+    wo:weight [ 
+      wo:weight_value -1.0 ;
+      wo:scale pkg:StandardScale
+    ]
+  ]
+.
+
+```
+
+"""
+ ;
+
+#skos:changeNote .
+
+.
+
+
+###
+### SHACL SHAPES
+###
+
+pkg:StatementShape a sh:NodeShape ;
+
+  sh:targetClass rdf:Statement ;
+
+  # skos:definition """ """ ;
+  # skos:changeNote
+  skos:example <example/ex1.ttl> ;
+  sh:order 1;
+  sh:property
+
+    # Logging
+    [ sh:path pav:authoredBy ; sh:minCount 0 ;
+	sh:name "Authored by" ; sh:order 3.1 ;
+	sh:description "Who made the original statement?" ] ,
+
+    [ sh:path pav:createdBy ; sh:minCount 0 ;
+	sh:name "Created by" ; sh:order 3.2 ;
+	sh:description "Who made this representation of the statement?" ] ,
+
+    [ sh:path pav:curatedBy ; sh:minCount 0 ;
+	sh:name "Created by" ; sh:order 3.3 ;
+	sh:description "Who helped in further describing or analysing this representation of the statement?" ] ,
+
+    [ sh:path pav:authoredOn ; sh:minCount 0 ; sh:maxCount 1 ;
+	sh:name "Authored on" ; sh:order 3.4 ;
+	sh:datatype xsd:dateTime ;
+	sh:description "The timestamp when the statement was made." ] ,
+
+    [ sh:path pav:createdOn ; sh:minCount 0 ; sh:maxCount 1 ;
+	sh:name "Authored on" ; sh:order 3.5 ;
+	sh:datatype xsd:dateTime ;
+	sh:description "The timestamp when this representation of the statement was made." ] ,
+
+    [ sh:path pav:createdAt ; sh:minCount 0 ;
+	sh:name "Authored on" ; sh:order 3.6 ;
+	sh:description "The location where this representation of the statement was made." ] ,
+
+    # content
+
+    [ sh:path dc:description ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:Literal ;
+	sh:name "Description" ; sh:order 1.1 ;
+	sh:description "The original textual statement in full." ] ,
+
+    [ sh:path rdf:subject ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:BlankNodeOrIRI ; sh:node pkg:StatementValueShape ;
+	sh:name "Subject" ; sh:order 1.2 ;
+	sh:description """The subject of the statement.
+	Typically who or what that is performing the action of the statement.
+	The first value of the elements in a RDF triple representation.""" ] ,
+
+    [ sh:path rdf:predicate ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:BlankNodeOrIRI ; sh:node pkg:StatementValueShape ;
+	sh:name "Predicate" ; sh:order 1.3 ;
+	sh:description """The predicate of the statement.
+	Typically the action of the statement.
+	The second value of the elements in a RDF triple representation.""" ] ,
+
+    [ sh:path rdf:object ; sh:minCount 1 ; sh:maxCount 1 ; sh:node pkg:StatementValueShape ;
+	sh:name "Object" ; sh:order 1.4 ;
+	sh:description """The object of the statement.
+	Typically the receiver of the statements' action.
+	The third value of the elements in a RDF triple representation.""" ] ,
+
+    # weight
+
+    [ sh:path wo:weigth ; sh:minCount 0 ; sh:maxCount 1 ; sh:node pkg:WeightShape ;
+	sh:name "Weigth" ; sh:order 2.1 ;
+	sh:description """
+	""" ] ,
+
+    # access
+
+    [ sh:path pkg:readAccessRights ; sh:minCount 0 ;
+	sh:name "Read access" ; sh:order 4.1 ;
+	sh:description "Who has read access to the statement?" ] ,
+
+    [ sh:path pkg:writeAccessRights ; sh:minCount 0 ;
+	sh:name "Write access" ; sh:order 4.2 ;
+	sh:description "Who has write access to the statement?" ]
+
+.
+
+pkg:StatementValueShape a sh:NodeShape ;
+  sh:targetObjectsOf rdf:subject, rdf:predicate, rdf:object ;
+  sh:order 2;
+  rdfs:comment """
+The subject, predicate and object of a statement can be given as a
+single IRI or literal, e.g., ex:JurassicPark or 'Tom Hanks', as long
+as this respects the RDF grammar, e.g., literals should only appear as
+objects. In case the value may not be identified by a single concrete
+IRI or literal, the value can be expressed as a skos:Concept, in
+particular for cases where the value represents a complex value, e.g.,
+'all the flowers in my garden'.
+"""
+
+.
+
+pkg:ConceptShape a sh:NodeShape ;
+  sh:targetClass skos:Concept ;
+  sh:order 3;
+  sh:property
+
+  [ sh:path dc:description ; sh:minCount 1 ; sh:maxCount 1; sh:nodeKind sh:Literal ;
+      sh:name "Description" ; sh:order 1.1 ;
+      sh:description "The textual support in the original statement for this concept." ] ,
+
+  [ sh:path [ sh:alternativePath ( skos:related skos:narrower skos:broader ) ] ; sh:minCount 0 ;
+      sh:name "Related concepts" ; sh:order 1.2 ;
+      sh:description """
+Any things or concepts related to this concept. Use this relation for
+linking identified named entities to this concept. For
+non-hierarchically related things or concepts, use skos:related. For
+hierarchically related things or concepts, use skos:narrower or
+skos:broader.
+""" ]
+
+.
+
+pkg:PreferenceShape a sh:NodeShape ;
+   rdfs:comment "Preference is used to express the sentiment of the Subject of the statement toward its Object. The sentiment is represented as a bounded weight, e.g., like is 1 and dislike is -1." ;
+  sh:order 4;
+  sh:targetObjectsOf wi:preference ;
+  sh:property
+  [ sh:path wi:topic ; sh:minCount 1 ;
+    sh:name "Preference topic" ; sh:description "The topic of the preference." ;
+    sh:order 1 ;
+  ] ,
+  [ sh:path wo:weight ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:name "Weigth value" ; sh:description "The specific value of a weight." ;
+    sh:order 2 ;
+  ] ,
+  [ sh:path pav:derivedFrom ; sh:minCount 0 ; sh:node pkg:StatementShape ;
+    sh:name "Weigth scale" ; sh:description "The statement from which the preference was derived." ;
+    sh:order 3 ;
+  ] .
+pkg:WeightShape a sh:NodeShape ;
+  sh:order 5;
+  sh:targetObjectsOf wo:weight ;
+  sh:property
+  [ sh:path wo:weight_value ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+    sh:name "Weight value" ; sh:description "The maximum value of this scale" ;
+    sh:order 1
+  ] ,
+  [ sh:path wo:scale ; sh:minCount 1 ; sh:maxCount 1 ; sh:node pkg:WeightScaleShape ;
+    sh:name "Min weight" ; sh:description "The minimum value of this scale" ;
+    sh:order 2
+  ] 
+.
+pkg:WeightScaleShape a sh:NodeShape ;
+  sh:order 5;
+  sh:targetClass wo:Scale ;
+  sh:property
+  [ sh:path wo:max_weigth ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+    sh:name "Max weight" ; sh:description "The maximum value of this scale" ;
+    sh:order 2
+  ] ,
+  [ sh:path wo:min_weigth ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+    sh:name "Min weight" ; sh:description "The minimum value of this scale" ;
+    sh:order 1
+  ] ,
+  [ sh:path wo:step_size  ; sh:minCount 0 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+    sh:name "Step size" ; sh:description "The step size of this scale. Values should be a multiple of this step size offset from the minimum weight." ;
+    sh:order 3
+  ]
+.
+
+###
+### VOCABULARY TERMS
+###
+
+pkg:StandardScale a wo:Scale ;
+  dc:description "A standard scale from -1 to 1 with 0.1 steps.";
+  wo:max_weigth  1.0 ;
+  wo:min_weigth -1.0 ;
+  wo:step_size   0.1 .
+pkg:readAccessRights  rdfs:subPropertyOf dc:accessRights ;
+  rdfs:domain rdf:Statement ;
+  dc:description "Who has read access to the statement?" 
+.
+
+pkg:writeAccessRights rdfs:subPropertyOf dc:accessRights ;
+  rdfs:domain rdf:Statement ;
+  dc:description "Who has write access to the statement?" 
+.
