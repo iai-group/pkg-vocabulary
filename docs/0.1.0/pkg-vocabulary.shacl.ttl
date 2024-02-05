@@ -1,20 +1,80 @@
-** Introduction                                                       :index:
+@prefix dc:    <http://purl.org/dc/terms/> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix ex:    <http://example.com#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pav:   <http://purl.org/pav/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann:  <http://purl.org/vocab/vann/> .
+@prefix vs:    <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix wi:    <http://purl.org/ontology/wi/core#> .
+@prefix wo:    <http://purl.org/ontology/wo/core#> .
 
-The vocabulary is published at is namespace http://w3id.org/pkg/ .
+@prefix pkg:   <http://w3id.org/pkg/> .
 
-The sources are available at https://github.com/iai-group/pkg-vocabulary .
+@base <http://w3id.org/pkg/0.1.0/> .
 
-The PKG Vocabulary is defined by a set of SHACL shapes patterns definition over largely well-established vocabularies:
- - Statements are represented by RDF's reification vocabulary (https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab)
- - with additional provenance, authoring and versioning data (using the PAV ontology (https://pav-ontology.github.io/pav/)),
- - and the possibility of assigning preferences to statements (using the Weighting Ontology and The Weighted Interests Vocabulary (http://purl.org/ontology/wo/core , http://purl.org/ontology/wi/core)).
- - Complex values are recommended expressed using SKOS' (http://www.w3.org/2004/02/skos/core) Concepts following the ~pkg:ConceptShape~ pattern.
+pkg:PKGVocabulary a owl:Ontology ;
+    dc:title "Personal Knowledge Graph (PKG) Vocabulary" ;
 
-** Examples
-*** "I dislike all movies with the actor Tom Cruise"
+    vann:preferredNamespacePrefix "pkg" ;
+    vann:preferredNamespaceUri "http://w3id.org/pkg/" ;
 
-#+NAME: example1-tom-cruise
-#+BEGIN_SRC ttl
+    #owl:priorVersion
+    owl:versionIRI <> ;
+    owl:versionInfo "0.1.0" ;
+
+    dcat:distribution
+       [ dc:format <https://www.iana.org/assignments/media-types/text/turtle> ;
+	 dcat:downloadURL <pkg-vocabulary.shacl.ttl> ] ;
+    #   [ dc:format <https://www.iana.org/assignments/media-types/application/ld+json> ;
+    #     dcat:downloadURL <....json> ]
+
+
+    doap:repository <https://github.com/iai-group/pkg-vocabulary> ;
+
+    dc:creator "Martin G. Skjæveland" ;
+    dc:contributor "Krisztian Balog", "Nolwenn Bernard" , "Petra Galuscakova" ;
+
+    dc:created "2024-01-04" ;
+    dc:issued "2023-02-05" ;
+    #dc:modified "2023-09-26" ;
+
+    dc:abstract """
+
+The PKG Vocabulary defines a pattern for expressing reified statements
+that may be annotated with provenance data. The vocabulary is designed
+to express facts and statements for personal knowledge graphs
+(PKGs), that is, facts and statements where personalisation data, e.g.,
+who made the statement, who the statement is about, is at the core.
+
+Statements are represented by
+[RDF's reification vocabulary](https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab)
+with additional provenance, authoring and versioning data (using the
+[PAV ontology](https://pav-ontology.github.io/pav/)),
+and the possibility of assigning preferences to statements (using the
+[Weighting Ontology](http://purl.org/ontology/wo/core)). Complex values are
+recommended expressed using SKOS' `Concepts` following the `pkg:ConceptShape` pattern.
+
+""" ;
+
+dc:description """
+
+### Example 1
+
+This example demonstrates how the statement "I dislike all movies with
+the actor Tom Cruise." is represented using the vocabulary. The
+statement is expressed/uttered by the owner of the PKG, represented by
+the IRI `my:I`. The example includes comments inline.
+
+```
 @prefix my:   <http://example.com/my> .
 
 _:st1 a rdf:Statement ;
@@ -104,69 +164,20 @@ _:st1 a rdf:Statement ;
   ]
 .
 
-#+END_SRC
+```
+
+"""
+ ;
+
+#skos:changeNote .
+
+.
 
 
-#+BEGIN_SRC ttl :tangle example/ex1.ttl :noweb strip-export :exports none :mkdirp yes
-<<prefixes>>
-<<example1-tom-cruise>>
-#+END_SRC
+###
+### SHACL SHAPES
+###
 
-** Vocabulary
-*** Metadata
-
-#+NAME: voc-metadata
-#+BEGIN_SRC ttl
-pkg:PKGVocabulary a owl:Ontology ;
-    dc:title "Personal Knowledge Graph (PKG) Vocabulary" ;
-
-    vann:preferredNamespacePrefix "pkg" ;
-    vann:preferredNamespaceUri "http://w3id.org/pkg/" ;
-
-    #owl:priorVersion
-    owl:versionIRI <> ;
-    owl:versionInfo "0.1.0" ;
-
-    dcat:distribution
-       [ dc:format <https://www.iana.org/assignments/media-types/text/turtle> ;
-	 dcat:downloadURL <pkg-vocabulary.shacl.ttl> ] ;
-    #   [ dc:format <https://www.iana.org/assignments/media-types/application/ld+json> ;
-    #     dcat:downloadURL <....json> ]
-
-
-    doap:repository <https://github.com/iai-group/pkg-vocabulary> ;
-
-    dc:creator "Martin G. Skjæveland" ;
-    dc:contributor "Krisztian Balog", "Nolwenn Bernard" , "Petra Galuscakova" ;
-
-    dc:created "2024-01-04" ;
-    dc:issued "2023-02-05" ;
-    #dc:modified "2023-09-26" ;
-
-    dc:abstract """
-
-The PKG Vocabulary defines a pattern for expressing reified statements
-that may be annotated with provenance data. The vocabulary is designed
-to express facts and statements for personal knowledge graphs
-(PKGs), that is, facts and statements where personalisation data, e.g.,
-who made the statement, who the statement is about, is at the core.
-
-Statements are represented by
-[RDF's reification vocabulary](https://www.w3.org/TR/rdf11-schema/#ch_reificationvocab)
-with additional provenance, authoring and versioning data (using the
-[PAV ontology](https://pav-ontology.github.io/pav/)),
-and the possibility of assigning preferences to statements (using the
-[Weighting Ontology](http://purl.org/ontology/wo/core)). Complex values are
-recommended expressed using SKOS' `Concepts` following the `pkg:ConceptShape` pattern.
-
-""" ;
-#+END_SRC
-
-*** SHACL shape patterns
-**** Statement
-
-#+NAME: voc-shacl-pattern-statement
-#+BEGIN_SRC ttl
 pkg:StatementShape a sh:NodeShape ;
 
   sh:targetClass rdf:Statement ;
@@ -247,12 +258,6 @@ pkg:StatementShape a sh:NodeShape ;
 
 .
 
-#+END_SRC
-
-**** Statement value
-
-#+NAME: voc-shacl-pattern-statementvalue
-#+BEGIN_SRC ttl
 pkg:StatementValueShape a sh:NodeShape ;
   sh:targetObjectsOf rdf:subject, rdf:predicate, rdf:object ;
   sh:order 2;
@@ -267,12 +272,6 @@ particular for cases where the value represents a complex value, e.g.,
 """
 
 .
-#+END_SRC
-
-**** Concept
-
-#+NAME: voc-shacl-pattern-concept
-#+BEGIN_SRC ttl
 
 pkg:ConceptShape a sh:NodeShape ;
   sh:targetClass skos:Concept ;
@@ -295,12 +294,6 @@ skos:broader.
 
 .
 
-#+END_SRC
-
-**** Preference
-
-#+NAME: voc-shacl-pattern-preference
-#+BEGIN_SRC ttl
 pkg:PreferenceShape a sh:NodeShape ;
    rdfs:comment "Preference is used to express the sentiment of the Subject of the statement toward its Object. The sentiment is represented as a bounded weight, e.g., like is 1 and dislike is -1." ;
   sh:order 4;
@@ -318,12 +311,6 @@ pkg:PreferenceShape a sh:NodeShape ;
     sh:name "Weigth scale" ; sh:description "The statement from which the preference was derived." ;
     sh:order 3 ;
   ] .
-#+END_SRC
-
-**** Weight
-
-#+NAME: voc-shacl-pattern-weight
-#+BEGIN_SRC ttl
 pkg:WeightShape a sh:NodeShape ;
   sh:order 5;
   sh:targetObjectsOf wo:weight ;
@@ -337,13 +324,6 @@ pkg:WeightShape a sh:NodeShape ;
     sh:order 2
   ] 
 .
-#+END_SRC
-
-
-**** Weight scale
-
-#+NAME: voc-shacl-pattern-weight-scale
-#+BEGIN_SRC ttl
 pkg:WeightScaleShape a sh:NodeShape ;
   sh:order 5;
   sh:targetClass wo:Scale ;
@@ -361,22 +341,16 @@ pkg:WeightScaleShape a sh:NodeShape ;
     sh:order 3
   ]
 .
-#+END_SRC
 
+###
+### VOCABULARY TERMS
+###
 
-*** Terms
-
-#+NAME: voc-terms-standardscale
-#+BEGIN_SRC ttl
 pkg:StandardScale a wo:Scale ;
   dc:description "A standard scale from -1 to 1 with 0.1 steps.";
   wo:max_weigth  1.0 ;
   wo:min_weigth -1.0 ;
   wo:step_size   0.1 .
-#+END_SRC
-
-#+NAME: voc-terms-accessRights
-#+BEGIN_SRC ttl
 pkg:readAccessRights  rdfs:subPropertyOf dc:accessRights ;
   rdfs:domain rdf:Statement ;
   dc:description "Who has read access to the statement?" 
@@ -386,109 +360,3 @@ pkg:writeAccessRights rdfs:subPropertyOf dc:accessRights ;
   rdfs:domain rdf:Statement ;
   dc:description "Who has write access to the statement?" 
 .
-#+END_SRC
-
-*** tangle                                                         :noexport:
-
-#+BEGIN_SRC ttl :tangle pkg-vocabulary.shacl.ttl :noweb strip-export
-<<prefixes>>
-
-@base <http://w3id.org/pkg/0.1.0/> .
-
-<<voc-metadata>>
-
-dc:description """
-
-### Example 1
-
-This example demonstrates how the statement "I dislike all movies with
-the actor Tom Cruise." is represented using the vocabulary. The
-statement is expressed/uttered by the owner of the PKG, represented by
-the IRI `my:I`. The example includes comments inline.
-
-```
-<<example1-tom-cruise>>
-```
-
-"""
- ;
-
-#skos:changeNote .
-
-.
-
-
-###
-### SHACL SHAPES
-###
-
-<<voc-shacl-pattern-statement>>
-<<voc-shacl-pattern-statementvalue>>
-<<voc-shacl-pattern-concept>>
-<<voc-shacl-pattern-preference>>
-<<voc-shacl-pattern-weight>>
-<<voc-shacl-pattern-weight-scale>>
-
-###
-### VOCABULARY TERMS
-###
-
-<<voc-terms-standardscale>>
-<<voc-terms-accessRights>>
-
-#+END_SRC
-
-#+BEGIN_SRC ttl :tangle pkg-vocabulary-terms.ttl :noweb strip-export
-<<prefixes>>
-
-<<voc-terms-standardscale>>
-<<voc-terms-accessRights>>
-
-#+END_SRC
-
-** Prefixes
-
-#+NAME: prefixes
-#+BEGIN_SRC ttl
-@prefix dc:    <http://purl.org/dc/terms/> .
-@prefix dcat:  <http://www.w3.org/ns/dcat#> .
-@prefix doap:  <http://usefulinc.com/ns/doap#> .
-@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
-@prefix ex:    <http://example.com#> .
-@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
-@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix pav:   <http://purl.org/pav/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix sh:    <http://www.w3.org/ns/shacl#> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix vann:  <http://purl.org/vocab/vann/> .
-@prefix vs:    <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix wi:    <http://purl.org/ontology/wi/core#> .
-@prefix wo:    <http://purl.org/ontology/wo/core#> .
-
-@prefix pkg:   <http://w3id.org/pkg/> .
-#+END_SRC
-
-
-** Versions                                                           :index:
-
- - http://w3id.org/pkg/0.1.0/
-
-** org-mode setup
-#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
-#+OPTIONS: author:nil broken-links:nil c:nil creator:nil
-#+OPTIONS: d:(not "LOGBOOK") date:nil e:t email:nil f:t inline:t num:nil
-#+OPTIONS: p:nil pri:nil prop:nil stat:t tags:nil tasks:nil tex:t
-#+OPTIONS: timestamp:nil title:t toc:nil todo:nil |:t
-#+TITLE: Personal Knowledge Graph (PKG) Vocabulary
-#+LANGUAGE: en
-#+SELECT_TAGS: index
-#+EXCLUDE_TAGS: noexport
-#+EXPORT_FILE_NAME: docs/index.html
-#+HTML_DOCTYPE: xhtml-strict
-#+HTML_CONTAINER: div
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
-#+TOC: headlines 1

@@ -22,7 +22,7 @@ install: \
 pkg-vocabulary.shacl.ttl: .tangle
 
 %.shacl.ttl-val.txt: %.shacl.ttl
-	$(JENA)/bin/shacl v --text --shapes  http://www.w3.org/ns/shacl-shacl --data $< > $@
+	$(JENA)/bin/shacl v --shapes  http://www.w3.org/ns/shacl-shacl --data $< > $@
 	cat $@
 
 %.json: %.ttl
@@ -36,7 +36,7 @@ pkg-vocabulary.shacl.ttl: .tangle
 	curl https://shacl-play.sparna.fr/play/doc -F includeDiagram=on -F shapesSource=file -F inputShapeFile=@$< > $@
 
 %-val.txt: % pkg-vocabulary.shacl.ttl
-	$(JENA)/bin/shacl v --text --shapes pkg-vocabulary.shacl.ttl --data $< > $@
+	$(JENA)/bin/shacl v --shapes pkg-vocabulary.shacl.ttl --data $< > $@
 	cat $@
 
 

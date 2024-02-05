@@ -1,0 +1,108 @@
+@prefix dc:    <http://purl.org/dc/terms/> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix doap:  <http://usefulinc.com/ns/doap#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix ex:    <http://example.com#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix pav:   <http://purl.org/pav/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann:  <http://purl.org/vocab/vann/> .
+@prefix vs:    <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix wi:    <http://purl.org/ontology/wi/core#> .
+@prefix wo:    <http://purl.org/ontology/wo/core#> .
+
+@prefix pkg:   <http://w3id.org/pkg/> .
+@prefix my:   <http://example.com/my> .
+
+_:st1 a rdf:Statement ;
+
+  ## CONTENT
+
+  ## The original textual statement in full.
+
+  dc:description
+    "I dislike all movies with the actor Tom Cruise."@en ;
+
+  ## The statement is split into a subject, predicate and object.
+
+  ## Here, my:I  represents the owner of the PKG.
+
+  rdf:subject
+    my:I ;
+
+  ## No readily available IRI for "dislike" was found, so we represent
+  ## this as a skos:Concept where the term(s) that represent the
+  ## meaning of the concept should be included as a textual
+  ## description using `dc:description`.
+
+  rdf:predicate [ a skos:Concept ; dc:description "dislike" ] ;
+
+  ## Complex statements are also typically represented using
+  ## skos:Concept, which can be additionally related to other concepts
+  ## using the SKOS properties: skos:related, skos:broader,
+  ## skos:narrower --- or other applicable properties.
+
+  rdf:object
+    [
+      a skos:Concept ; dc:description "All movies with the actor Tom Cruise" ;
+	skos:related <https://schema.org/actor>, <http://dbpedia.org/resource/Tom_Cruise> ;
+        skos:broader <https://schema.org/Movie> ; 
+    ] ;
+
+  ## LOGGING
+
+  # Who made the original statement?
+
+  pav:authoredBy
+    my:I ;
+
+  # Who created this representation of the statement?
+
+  pav:createdBy
+    my:I ;
+
+  # Who helped in further describing/analysing the statement?
+
+  # pav:curatedBy
+
+  # When was the original statement made/expressed/uttered?
+
+  pav:authoredOn
+    "2023-12-15T21:12:40"^^xsd:dateTime ;
+
+  # When this representation was made?
+
+  pav:createdOn
+    "2023-12-15T21:12:40"^^xsd:dateTime ;
+
+  # Where was this representation was made?
+
+  pav:createdAt
+    [ a geo:Point ;
+      geo:lat 45.201 ;
+      geo:long 10.128
+    ] ;
+
+  pkg:readAccessRights "MovieBot", "IMDB" ;
+  pkg:writeAccessRights "MovieBot" ;
+
+.
+
+  ## FURTHER ANALYSIS
+  ## A statement may be analysed in more details in terms of preference disclose.
+  ## In our example, it is possible to derive I's negative preference towards Tom Cruise.
+  my:I wi:preference [
+    pav:derivedFrom _:st1 ;
+    wi:topic <http://dbpedia.org/resource/Tom_Cruise> ;
+    wo:weight [ 
+      wo:weight_value -1.0 ;
+      wo:scale pkg:StandardScale
+    ]
+  ]
+.
